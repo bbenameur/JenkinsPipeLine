@@ -16,6 +16,12 @@ pipeline {
           }
         }
 
+        stage('Test Log') {
+          steps {
+            echo 'Test Log'
+          }
+        }
+
       }
     }
 
