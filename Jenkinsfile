@@ -5,20 +5,23 @@ pipeline {
       parallel {
         stage('Build') {
           steps {
-            echo 'Building The .Net Core APplication'
+            echo 'Building the .NET Core application'
           }
         }
 
         stage('Test') {
           steps {
-            echo 'Testing The application'
+            echo 'Testing the application'
             echo "Get the DriverPath ${ChromeDriverPath}"
           }
         }
 
         stage('Test Log') {
+          environment {
+            LocalVariable = 'HelloLocal'
+          }
           steps {
-            echo 'Test Log'
+            writeFile(file: 'LogTestFile.txt', text: "This is the ChromeDriverPath ${ChromeDriverPath} and localvariable Value ${LocalVariable}")
           }
         }
 
@@ -26,11 +29,14 @@ pipeline {
     }
 
     stage('Deploy') {
+      when {
+        branch 'master'
+      }
       parallel {
         stage('Deploy') {
           steps {
             input(message: 'Do you want to Deployment ?', id: 'OK')
-            echo 'Deploying the app'
+            echo 'Deploying the app in IIS server'
           }
         }
 
@@ -45,6 +51,6 @@ pipeline {
 
   }
   environment {
-    ChromeDriverPath = '/labs/chrome'
+    ChromeDriverPath = 'C:\\Driver\\Path\\ChromeDriver.exe'
   }
 }
