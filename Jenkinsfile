@@ -36,7 +36,7 @@ pipeline {
 
         stage('Artifacts') {
           steps {
-            archiveArtifacts 'LogTestFile.txt'
+           writeFile(file: 'LogTestFile.txt', text: "This is the ChromeDriverPath ${ChromeDriverPath} and localvariable Value ${LocalVariable}")
           }
         }
 
